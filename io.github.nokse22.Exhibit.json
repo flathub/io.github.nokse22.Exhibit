@@ -1,15 +1,15 @@
 {
-    "id" : "io.github.nokse22.Exhibit",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "46",
-    "sdk" : "org.gnome.Sdk",
-    "command" : "exhibit",
-    "finish-args" : [
+    "id": "io.github.nokse22.Exhibit",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "46",
+    "sdk": "org.gnome.Sdk",
+    "command": "exhibit",
+    "finish-args": [
         "--share=ipc",
         "--socket=x11",
         "--device=dri"
     ],
-    "cleanup" : [
+    "cleanup": [
         "/include",
         "/lib/pkgconfig",
         "/man",
@@ -24,8 +24,8 @@
         "/cmake",
         "/CMakeFiles"
     ],
-    "modules" : [
-         "shared-modules/glew/glew.json",
+    "modules": [
+        "shared-modules/glew/glew.json",
         {
             "name": "Eigen3",
             "buildsystem": "cmake-ninja",
@@ -268,8 +268,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v5.4.0.tar.gz",
-                    "sha256": "a90f77b0269addb2f381b00c09ad47710f2aab6b1d904f5e9a29953c30104d3f",
+                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v5.4.1.tar.gz",
+                    "sha256": "a1bf71c4eb851ca336bba301730cd072b366403e98e3739d6a024f6313b8f954",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6988,
@@ -351,9 +351,9 @@
                 }
             },
             "config-opts": [
-            	"-DF3D_BUILD_APPLICATION:BOOL=OFF",
-            	"-DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON",
-            	"-DF3D_BINDINGS_PYTHON:BOOL=ON",
+                "-DF3D_BUILD_APPLICATION:BOOL=OFF",
+                "-DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON",
+                "-DF3D_BINDINGS_PYTHON:BOOL=ON",
                 "-DCMAKE_INSTALL_PREFIX:PATH=/app",
                 "-DBUILD_TESTING:BOOL=OFF",
                 "-DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=ON",
@@ -368,19 +368,19 @@
                 {
                     "type": "git",
                     "url": "https://github.com/f3d-app/f3d",
-                    "commit" : "7040c4f0addd708552e3964d39705d0b2714a581"
+                    "commit": "7040c4f0addd708552e3964d39705d0b2714a581"
                 }
             ]
         },
         {
-            "name" : "exhibit",
-            "builddir" : true,
-            "buildsystem" : "meson",
-            "sources" : [
+            "name": "exhibit",
+            "builddir": true,
+            "buildsystem": "meson",
+            "sources": [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/nokse22/Exhibit",
-                    "commit" : "d4526f82e8c3c1f2dad9db2e74ba5a3ff64a177c"
+                    "type": "git",
+                    "url": "https://github.com/nokse22/Exhibit",
+                    "commit": "d4526f82e8c3c1f2dad9db2e74ba5a3ff64a177c"
                 }
             ]
         }
