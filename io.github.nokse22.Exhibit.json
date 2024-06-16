@@ -1,15 +1,15 @@
 {
-    "id": "io.github.nokse22.Exhibit",
-    "runtime": "org.gnome.Platform",
-    "runtime-version": "46",
-    "sdk": "org.gnome.Sdk",
-    "command": "exhibit",
-    "finish-args": [
+    "id" : "io.github.nokse22.Exhibit",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "46",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "exhibit",
+    "finish-args" : [
         "--share=ipc",
-        "--socket=x11",
+        "--socket=wayland",
         "--device=dri"
     ],
-    "cleanup": [
+    "cleanup" : [
         "/include",
         "/lib/pkgconfig",
         "/man",
@@ -24,8 +24,8 @@
         "/cmake",
         "/CMakeFiles"
     ],
-    "modules": [
-        "shared-modules/glew/glew.json",
+    "modules" : [
+         "shared-modules/glew/glew.json",
         {
             "name": "Eigen3",
             "buildsystem": "cmake-ninja",
@@ -97,6 +97,7 @@
                 "-DBUILD_SHARED_LIBS=ON",
                 "-DOpenGL_GL_PREFERENCE=GLVND",
                 "-DVTK_ENABLE_LOGGING=OFF",
+                "-DVTK_OPENGL_HAS_EGL=ON",
                 "-DVTK_ENABLE_WRAPPING=OFF",
                 "-DVTK_BUILD_TESTING=OFF",
                 "-DVTK_LEGACY_REMOVE=ON",
@@ -268,8 +269,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v5.4.1.tar.gz",
-                    "sha256": "a1bf71c4eb851ca336bba301730cd072b366403e98e3739d6a024f6313b8f954",
+                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v5.4.0.tar.gz",
+                    "sha256": "a90f77b0269addb2f381b00c09ad47710f2aab6b1d904f5e9a29953c30104d3f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6988,
@@ -363,6 +364,68 @@
             ]
         },
         {
+            "name": "Boost",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.gz",
+                    "sha256": "c0685b68dd44cc46574cce86c4e17c0f611b15e195be9848dfd0769a0a207628"
+                }
+            ],
+			"build-commands": [
+				"./bootstrap.sh --prefix=/app --with-libraries=iostreams,filesystem,system,date_time,regex,program_options,python",
+				"./b2 headers",
+				"./b2 -j$FLATPAK_BUILDER_N_JOBS install variant=release cxxstd=17 --layout=system"
+			]
+        },
+        {
+            "name": "OpenSubdiv",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/refs/tags/v3_6_0.tar.gz",
+                    "sha256": "bebfd61ab6657a4f4ff27845fb66a167d00395783bfbd253254d87447ed1d879"
+                }
+            ]
+        },
+        {
+			"name": "openUSD",
+			"buildsystem": "cmake-ninja",
+			"config-opts": [
+				"-DPXR_BUILD_ALEMBIC_PLUGIN:BOOL=OFF",
+				"-DPXR_BUILD_EMBREE_PLUGIN:BOOL=OFF",
+				"-DPXR_BUILD_IMAGING:BOOL=OFF",
+				"-DPXR_BUILD_MONOLITHIC:BOOL=ON",
+				"-DPXR_BUILD_TESTS:BOOL=OFF",
+				"-DPXR_BUILD_USD_IMAGING:BOOL=OFF",
+				"-DPXR_ENABLE_PYTHON_SUPPORT:BOOL=OFF",
+				"-DPXR_BUILD_EXAMPLES:BOOL=OFF",
+				"-DPXR_BUILD_TUTORIALS:BOOL=OFF",
+				"-DPXR_BUILD_USD_TOOLS:BOOL=OFF",
+				"-DPXR_INSTALL_LOCATION:PATH=../lib/usd",
+				"-DCMAKE_BUILD_TYPE=Release",
+				"-DTBB_INCLUDE_DIRS=/app/include",
+		        "-DTBB_LIBRARIES=/app/lib/libtbb.so"
+				],
+				"sources": [
+				{
+					"type": "archive",
+					"url": "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.tar.gz",
+					"sha256": "f5c3e72cd584bab383a8054628b6ed98aa17b1cbbe896eb98257ac19641d10c7"
+				},
+		        {
+		            "type": "patch",
+		            "path": "0001-usd-onetbb.patch"
+		        },
+		        {
+		            "type": "patch",
+		            "path": "0002-install-bin.patch"
+		        }
+			]
+		},
+        {
             "name": "F3D",
             "buildsystem": "cmake-ninja",
             "builddir": true,
@@ -373,10 +436,10 @@
                 }
             },
             "config-opts": [
-                "-DF3D_BUILD_APPLICATION:BOOL=OFF",
-                "-DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON",
-                "-DF3D_MODULE_EXR:BOOL=ON",
-                "-DF3D_BINDINGS_PYTHON:BOOL=ON",
+            	"-DF3D_BUILD_APPLICATION:BOOL=OFF",
+            	"-DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON",
+            	"-DF3D_MODULE_EXR:BOOL=ON",
+            	"-DF3D_BINDINGS_PYTHON:BOOL=ON",
                 "-DCMAKE_INSTALL_PREFIX:PATH=/app",
                 "-DBUILD_TESTING:BOOL=OFF",
                 "-DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=ON",
@@ -385,25 +448,26 @@
                 "-DF3D_PLUGIN_BUILD_ASSIMP:BOOL=ON",
                 "-DF3D_PLUGIN_BUILD_DRACO:BOOL=ON",
                 "-DF3D_PLUGIN_BUILD_EXODUS:BOOL=ON",
-                "-DF3D_PLUGIN_BUILD_OCCT:BOOL=ON"
+                "-DF3D_PLUGIN_BUILD_OCCT:BOOL=ON",
+                "-DF3D_PLUGIN_BUILD_USD:BOOL=ON"
             ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/f3d-app/f3d",
-                    "commit": "7040c4f0addd708552e3964d39705d0b2714a581"
+                    "commit" : "7040c4f0addd708552e3964d39705d0b2714a581"
                 }
             ]
         },
         {
-            "name": "exhibit",
-            "builddir": true,
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "exhibit",
+            "builddir" : true,
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://github.com/nokse22/Exhibit",
-                    "commit": "082289fa53316c6bc0aa89c8312bb811ea627003"
+                    "type" : "git",
+                    "url" : "https://github.com/nokse22/Exhibit",
+                    "commit" : "c448ad2a931610fc0fd1eab722454badb3421d5c"
                 }
             ]
         }
