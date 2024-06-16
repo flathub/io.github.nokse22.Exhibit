@@ -391,22 +391,22 @@
             ]
         },
         {
-			"name": "openUSD",
-			"buildsystem": "cmake-ninja",
-			"config-opts": [
-				"-DPXR_BUILD_ALEMBIC_PLUGIN:BOOL=OFF",
-				"-DPXR_BUILD_EMBREE_PLUGIN:BOOL=OFF",
-				"-DPXR_BUILD_IMAGING:BOOL=OFF",
-				"-DPXR_BUILD_MONOLITHIC:BOOL=ON",
-				"-DPXR_BUILD_TESTS:BOOL=OFF",
-				"-DPXR_BUILD_USD_IMAGING:BOOL=OFF",
-				"-DPXR_ENABLE_PYTHON_SUPPORT:BOOL=OFF",
-				"-DPXR_BUILD_EXAMPLES:BOOL=OFF",
-				"-DPXR_BUILD_TUTORIALS:BOOL=OFF",
-				"-DPXR_BUILD_USD_TOOLS:BOOL=OFF",
-				"-DPXR_INSTALL_LOCATION:PATH=../lib/usd",
-				"-DCMAKE_BUILD_TYPE=Release",
-				"-DTBB_INCLUDE_DIRS=/app/include",
+	    "name": "openUSD",
+	    "buildsystem": "cmake-ninja",
+	    "config-opts": [
+			"-DPXR_BUILD_ALEMBIC_PLUGIN:BOOL=OFF",
+			"-DPXR_BUILD_EMBREE_PLUGIN:BOOL=OFF",
+			"-DPXR_BUILD_IMAGING:BOOL=OFF",
+			"-DPXR_BUILD_MONOLITHIC:BOOL=ON",
+			"-DPXR_BUILD_TESTS:BOOL=OFF",
+			"-DPXR_BUILD_USD_IMAGING:BOOL=OFF",
+			"-DPXR_ENABLE_PYTHON_SUPPORT:BOOL=OFF",
+			"-DPXR_BUILD_EXAMPLES:BOOL=OFF",
+			"-DPXR_BUILD_TUTORIALS:BOOL=OFF",
+			"-DPXR_BUILD_USD_TOOLS:BOOL=OFF",
+			"-DPXR_INSTALL_LOCATION:PATH=../lib/usd",
+			"-DCMAKE_BUILD_TYPE=Release",
+			"-DTBB_INCLUDE_DIRS=/app/include",
 		        "-DTBB_LIBRARIES=/app/lib/libtbb.so"
 				],
 				"sources": [
@@ -423,8 +423,8 @@
 		            "type": "patch",
 		            "path": "0002-install-bin.patch"
 		        }
-			]
-		},
+		]
+	},
         {
             "name": "F3D",
             "buildsystem": "cmake-ninja",
@@ -467,7 +467,7 @@
                 {
                     "type" : "git",
                     "url" : "https://github.com/nokse22/Exhibit",
-                    "commit" : "c448ad2a931610fc0fd1eab722454badb3421d5c"
+                    "commit" : "b2a0fa911de75e0f6b53f96cba08392e2aefb650"
                 }
             ]
         }
