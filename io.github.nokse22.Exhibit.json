@@ -228,8 +228,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://prdownloads.sourceforge.net/tcl/tk8.6.14-src.tar.gz",
-                            "sha256": "8ffdb720f47a6ca6107eac2dd877e30b0ef7fac14f3a84ebbd0b3612cee41a94",
+                            "url": "https://prdownloads.sourceforge.net/tcl/tk8.6.15-src.tar.gz",
+                            "sha256": "550969f35379f952b3020f3ab7b9dd5bfd11c1ef7c9b7c6a75f5c49aca793fec",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11426,
@@ -334,12 +334,12 @@
                         {
                             "type": "git",
                             "url": "https://github.com/AcademySoftwareFoundation/Imath.git",
-                            "tag": "v3.1.11",
+                            "tag": "v3.1.12",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^(v[\\d.]+)$"
                             },
-                            "commit": "5ac1d5335cb34f0f356c5f2461a57c845b96b115"
+                            "commit": "c0396a055a01bc537d32f435aee11a9b7ed6f0b5"
                         }
                     ]
                 },
@@ -375,8 +375,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.5.tar.gz",
-                            "sha256": "b1e209c42b3a9ed74da3e0b25a4f4cd478d89d5efbb48f04b277df427faf6252",
+                            "url": "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.6.tar.gz",
+                            "sha256": "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 13384,
