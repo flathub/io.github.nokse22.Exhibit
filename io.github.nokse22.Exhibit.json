@@ -284,7 +284,6 @@
                     "name": "OCCT",
                     "buildsystem": "cmake-ninja",
                     "config-opts": [
-                        "-D3RDPARTY_TK_INCLUDE_DIR:PATH=/app/include",
                         "-DBUILD_MODULE_ApplicationFramework=OFF",
                         "-DBUILD_MODULE_DataExchange=ON",
                         "-DBUILD_MODULE_Draw=OFF",
@@ -292,14 +291,14 @@
                         "-DBUILD_MODULE_ModelingAlgorithms=OFF",
                         "-DBUILD_MODULE_ModelingData=OFF",
                         "-DBUILD_MODULE_Visualization=OFF",
-                        "-DBUILD_DOC_Overview=OFF"
+                        "-DBUILD_DOC_Overview=OFF",
+                        "-DCMAKE_CXX_FLAGS=-fpermissive"
                     ],
                     "sources": [
                         {
                             "type": "git",
                             "url": "https://github.com/Open-Cascade-SAS/OCCT.git",
-                            "tag": "V7_7_2",
-                            "commit": "cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2"
+                            "tag": "V7_8_1"
                         }
                     ]
                 },
@@ -507,7 +506,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/nokse22/Exhibit",
-                    "tag": "v1.3.1"
+                    "commit": "468086c3e39db0168351dd88786b2e17f0ab2a1c"
                 }
             ]
         }
