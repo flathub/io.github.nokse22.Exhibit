@@ -1,7 +1,7 @@
 {
     "id": "io.github.nokse22.Exhibit",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "46",
+    "runtime-version": "47",
     "sdk": "org.gnome.Sdk",
     "command": "exhibit",
     "finish-args": [
@@ -201,8 +201,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://prdownloads.sourceforge.net/tcl/tcl8.6.14-src.tar.gz",
-                            "sha256": "5880225babf7954c58d4fb0f5cf6279104ce1cd6aa9b71e9a6322540e1c4de66",
+                            "url": "https://prdownloads.sourceforge.net/tcl/tcl8.6.15-src.tar.gz",
+                            "sha256": "861e159753f2e2fbd6ec1484103715b0be56be3357522b858d3cbb5f893ffef1",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 4941,
@@ -228,8 +228,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://prdownloads.sourceforge.net/tcl/tk8.6.14-src.tar.gz",
-                            "sha256": "8ffdb720f47a6ca6107eac2dd877e30b0ef7fac14f3a84ebbd0b3612cee41a94",
+                            "url": "https://prdownloads.sourceforge.net/tcl/tk8.6.15-src.tar.gz",
+                            "sha256": "550969f35379f952b3020f3ab7b9dd5bfd11c1ef7c9b7c6a75f5c49aca793fec",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11426,
@@ -284,7 +284,6 @@
                     "name": "OCCT",
                     "buildsystem": "cmake-ninja",
                     "config-opts": [
-                        "-D3RDPARTY_TK_INCLUDE_DIR:PATH=/app/include",
                         "-DBUILD_MODULE_ApplicationFramework=OFF",
                         "-DBUILD_MODULE_DataExchange=ON",
                         "-DBUILD_MODULE_Draw=OFF",
@@ -292,14 +291,14 @@
                         "-DBUILD_MODULE_ModelingAlgorithms=OFF",
                         "-DBUILD_MODULE_ModelingData=OFF",
                         "-DBUILD_MODULE_Visualization=OFF",
-                        "-DBUILD_DOC_Overview=OFF"
+                        "-DBUILD_DOC_Overview=OFF",
+                        "-DCMAKE_CXX_FLAGS=-fpermissive"
                     ],
                     "sources": [
                         {
                             "type": "git",
                             "url": "https://github.com/Open-Cascade-SAS/OCCT.git",
-                            "tag": "V7_7_2",
-                            "commit": "cec1ecd0c9f3b3d2572c47035d11949e8dfa85e2"
+                            "tag": "V7_8_1"
                         }
                     ]
                 },
@@ -334,12 +333,12 @@
                         {
                             "type": "git",
                             "url": "https://github.com/AcademySoftwareFoundation/Imath.git",
-                            "tag": "v3.1.11",
+                            "tag": "v3.1.12",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^(v[\\d.]+)$"
                             },
-                            "commit": "5ac1d5335cb34f0f356c5f2461a57c845b96b115"
+                            "commit": "c0396a055a01bc537d32f435aee11a9b7ed6f0b5"
                         }
                     ]
                 },
@@ -375,8 +374,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.5.tar.gz",
-                            "sha256": "b1e209c42b3a9ed74da3e0b25a4f4cd478d89d5efbb48f04b277df427faf6252",
+                            "url": "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.6.tar.gz",
+                            "sha256": "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 13384,
@@ -507,7 +506,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/nokse22/Exhibit",
-                    "tag": "v1.3.1"
+                    "commit": "468086c3e39db0168351dd88786b2e17f0ab2a1c"
                 }
             ]
         }
