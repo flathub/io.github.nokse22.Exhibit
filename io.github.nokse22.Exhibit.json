@@ -55,8 +55,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/f3d-app/f3d/archive/refs/tags/v2.5.0.tar.gz",
-                    "sha256": "d7f6dd7d9e4465c1f44d168c3a38aad24569a25907673180c8791a783e73f02f",
+                    "url": "https://github.com/f3d-app/f3d/archive/refs/tags/v3.0.0.tar.gz",
+                    "sha256": "7ea83830d1c8158a1f01e5ac9edd00b81de3e0b4cbdbc4a4bb60a113728b7b7a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 224911,
@@ -107,8 +107,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_3.tar.gz",
-                            "sha256": "df5ee33c74d5efb59738075ef96f4201588e1f1eeb233f047ac7fd1072dee1f6",
+                            "url": "https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1.14.6.tar.gz",
+                            "sha256": "6df53f84376d87e96eeb255703e3b1a348fc08a48e06e37053f1bfb379970189",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 1303,
@@ -180,8 +180,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz",
-                            "sha256": "8354ec084ea0d2dc3d23dbe4243823c4bfc270382d0ce8d658939fd50061cab8",
+                            "url": "https://www.vtk.org/files/release/9.4/VTK-9.4.1.tar.gz",
+                            "sha256": "c253b0c8d002aaf98871c6d0cb76afc4936c301b72358a08d5f3f72ef8bc4529",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 15084,
@@ -201,8 +201,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://prdownloads.sourceforge.net/tcl/tcl9.0.0-src.tar.gz",
-                            "sha256": "3bfda6dbaee8e9b1eeacc1511b4e18a07a91dff82d9954cdb9c729d8bca4bbb7",
+                            "url": "https://prdownloads.sourceforge.net/tcl/tcl9.0.1-src.tar.gz",
+                            "sha256": "a72b1607d7a399c75148c80fcdead88ed3371a29884181f200f2200cdee33bbc",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 4941,
@@ -352,8 +352,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/alembic/alembic/archive/refs/tags/1.8.6.tar.gz",
-                            "sha256": "c572ebdea3a5f0ce13774dd1fceb5b5815265cd1b29d142cf8c144b03c131c8c",
+                            "url": "https://github.com/alembic/alembic/archive/refs/tags/1.8.8.tar.gz",
+                            "sha256": "ba1f34544608ef7d3f68cafea946ec9cc84792ddf9cda3e8d5590821df71f6c6",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 13980,
