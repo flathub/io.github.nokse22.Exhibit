@@ -1,7 +1,7 @@
 {
     "id": "io.github.nokse22.Exhibit",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "48",
+    "runtime-version": "49",
     "sdk": "org.gnome.Sdk",
     "command": "exhibit",
     "finish-args": [
@@ -35,7 +35,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/nokse22/Exhibit",
-                    "tag": "v1.5.1"
+                    "tag": "v1.6.0"
                 }
             ]
         }

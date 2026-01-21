@@ -2,33 +2,38 @@
     "name": "F3D",
     "buildsystem": "cmake-ninja",
     "builddir": true,
-    "build-options": {
-        "env": {
-            "LIBRARY_PATH": "/app/lib:/usr/lib",
-            "LD_LIBRARY_PATH": "/app/lib:/usr/lib"
-        }
-    },
     "config-opts": [
-        "-DF3D_BUILD_APPLICATION:BOOL=OFF",
-        "-DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON",
-        "-DF3D_MODULE_EXR:BOOL=ON",
-        "-DF3D_BINDINGS_PYTHON:BOOL=ON",
-        "-DCMAKE_INSTALL_PREFIX:PATH=/app",
-        "-DBUILD_TESTING:BOOL=OFF",
-        "-DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=ON",
+        "-DCMAKE_INSTALL_PREFIX=/app",
+        "-DCMAKE_PREFIX_PATH=/app",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DF3D_BUILD_APPLICATION=ON",
+        "-DF3D_MODULE_UI=OFF",
+        "-DF3D_MODULE_RAYTRACING=OFF",
+        "-DF3D_MODULE_EXR=ON",
+        "-DF3D_BINDINGS_PYTHON=ON",
+        "-DF3D_BINDINGS_JAVA=OFF",
+        "-DF3D_BINDINGS_C=OFF",
+        "-DF3D_LINUX_GENERATE_MAN=OFF",
         "-DF3D_PLUGINS_STATIC_BUILD=ON",
         "-DF3D_PLUGIN_BUILD_ALEMBIC=ON",
-        "-DF3D_PLUGIN_BUILD_ASSIMP:BOOL=ON",
-        "-DF3D_PLUGIN_BUILD_DRACO:BOOL=ON",
-        "-DF3D_PLUGIN_BUILD_EXODUS:BOOL=ON",
-        "-DF3D_PLUGIN_BUILD_OCCT:BOOL=ON",
-        "-DF3D_PLUGIN_BUILD_USD:BOOL=ON"
+        "-DF3D_PLUGIN_BUILD_ASSIMP=ON",
+        "-DF3D_PLUGIN_BUILD_DRACO=ON",
+        "-DF3D_PLUGIN_BUILD_HDF=ON",
+        "-DF3D_PLUGIN_BUILD_OCCT=ON",
+        "-DF3D_PLUGIN_BUILD_USD=ON",
+        "-DF3D_PLUGIN_BUILD_VDB=OFF",
+        "-DBUILD_TESTING=OFF",
+        "-DF3D_LINUX_LINK_FILESYSTEM=OFF"
     ],
     "sources": [
         {
             "type": "git",
-            "url": "https://github.com/f3d-app/f3d.git",
-            "tag": "v2.5.0"
+            "url": "https://github.com/f3d-app/f3d",
+            "branch": "master"
+        },
+        {
+            "type": "patch",
+            "path": "./0001-Fix-rendering-backend-detection.patch"
         }
     ],
     "modules": [
@@ -49,23 +54,19 @@
             ]
         },
         {
-            "name": "hdf5",
-            "buildsystem": "cmake-ninja",
-            "builddir": true,
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
-                "-DBUILD_TESTING:BOOL=OFF",
-                "-DHDF5_BUILD_EXAMPLES:BOOL=OFF"
-            ],
-            "cleanup": [
-                "/share/hdf5_examples"
-            ],
+            "name": "Boost",
+            "buildsystem": "simple",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_3.tar.gz",
-                    "sha256": "df5ee33c74d5efb59738075ef96f4201588e1f1eeb233f047ac7fd1072dee1f6"
+                    "url": "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.gz",
+                    "sha256": "c0685b68dd44cc46574cce86c4e17c0f611b15e195be9848dfd0769a0a207628"
                 }
+            ],
+            "build-commands": [
+                "./bootstrap.sh --prefix=/app --with-libraries=iostreams,filesystem,system,date_time,regex,program_options,python",
+                "./b2 headers",
+                "./b2 -j$FLATPAK_BUILDER_N_JOBS install variant=release cxxstd=17 --layout=system"
             ]
         },
         {
@@ -74,13 +75,49 @@
             "builddir": true,
             "config-opts": [
                 "-DTBB_TEST=OFF",
-                "-DTBB_EXAMPLES=OFF"
+                "-DTBB_EXAMPLES=OFF",
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.13.0.tar.gz",
-                    "sha256": "3ad5dd08954b39d113dc5b3f8a8dc6dc1fd5250032b7c491eb07aed5c94133e1"
+                    "url": "https://github.com/oneapi-src/oneTBB/archive/v2021.9.0.tar.gz",
+                    "sha256": "1ce48f34dada7837f510735ff1172f6e2c261b09460e3bf773b49791d247d24e"
+                }
+            ]
+        },
+        {
+            "name": "Imath",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DBUILD_TESTING=OFF",
+                "-DBUILD_SHARED_LIBS=ON"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/AcademySoftwareFoundation/Imath.git",
+                    "tag": "v3.2.2"
+                }
+            ]
+        },
+        {
+            "name": "hdf5",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DBUILD_TESTING=OFF",
+                "-DHDF5_BUILD_EXAMPLES=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1.14.6.tar.gz",
+                    "sha256": "6df53f84376d87e96eeb255703e3b1a348fc08a48e06e37053f1bfb379970189"
                 }
             ]
         },
@@ -89,49 +126,51 @@
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
+                "-DCMAKE_INSTALL_PREFIX=/app",
+                "-DCMAKE_BUILD_TYPE=Release",
                 "-DBUILD_SHARED_LIBS=ON",
-                "-DOpenGL_GL_PREFERENCE=GLVND",
-                "-DVTK_ENABLE_LOGGING=OFF",
-                "-DVTK_OPENGL_HAS_EGL=ON",
-                "-DVTK_ENABLE_WRAPPING=OFF",
-                "-DVTK_BUILD_TESTING=OFF",
                 "-DVTK_LEGACY_REMOVE=ON",
                 "-DVTK_VERSIONED_INSTALL=OFF",
+                "-DVTK_BUILD_TESTING=OFF",
+                "-DVTK_DEBUG_LEAKS=ON",
+                "-DVTK_ENABLE_LOGGING=OFF",
+                "-DVTK_ENABLE_REMOTE_MODULES=OFF",
+                "-DVTK_ENABLE_WRAPPING=OFF",
                 "-DVTK_GROUP_ENABLE_Rendering=DEFAULT",
                 "-DVTK_GROUP_ENABLE_StandAlone=DEFAULT",
+                "-DVTK_SMP_IMPLEMENTATION_TYPE=TBB",
+                "-DVTK_OPENGL_HAS_EGL=ON",
                 "-DVTK_MODULE_ENABLE_VTK_CommonSystem=YES",
                 "-DVTK_MODULE_ENABLE_VTK_FiltersGeneral=YES",
                 "-DVTK_MODULE_ENABLE_VTK_FiltersGeometry=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOCityGML=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOExodus=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOGeometry=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOHDF=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOImage=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOImport=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOLegacy=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IONetCDF=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOOpenVDB=DEFAULT",
+                "-DVTK_MODULE_ENABLE_VTK_IOPLY=YES",
+                "-DVTK_MODULE_ENABLE_VTK_IOXML=YES",
                 "-DVTK_MODULE_ENABLE_VTK_ImagingCore=YES",
                 "-DVTK_MODULE_ENABLE_VTK_ImagingHybrid=YES",
                 "-DVTK_MODULE_ENABLE_VTK_InteractionStyle=YES",
                 "-DVTK_MODULE_ENABLE_VTK_InteractionWidgets=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOCityGML=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOExodus=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOGeometry=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOImage=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOImport=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOParallel=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOPLY=YES",
-                "-DVTK_MODULE_ENABLE_VTK_IOXML=YES",
                 "-DVTK_MODULE_ENABLE_VTK_RenderingAnnotation=YES",
                 "-DVTK_MODULE_ENABLE_VTK_RenderingCore=YES",
-                "-DVTK_MODULE_ENABLE_VTK_RenderingExternal=YES",
-                "-DVTK_MODULE_ENABLE_VTK_RenderingLabel=YES",
+                "-DVTK_MODULE_ENABLE_VTK_RenderingGridAxes=YES",
                 "-DVTK_MODULE_ENABLE_VTK_RenderingOpenGL2=YES",
+                "-DVTK_MODULE_ENABLE_VTK_RenderingRayTracing=DEFAULT",
                 "-DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES",
-                "-DVTK_MODULE_ENABLE_VTK_TestingCore=YES",
-                "-DVTK_MODULE_ENABLE_VTK_RenderingRayTracing=NO",
-                "-DVTK_SMP_IMPLEMENTATION_TYPE=TBB",
-                "-DVTK_SMP_ENABLE_SEQUENTIAL=OFF",
-                "-DVTK_SMP_ENABLE_STDTHREAD=OFF",
-                "-DVTK_SMP_ENABLE_TBB=ON"
+                "-DVTK_MODULE_ENABLE_VTK_TestingCore=YES"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz",
-                    "sha256": "8354ec084ea0d2dc3d23dbe4243823c4bfc270382d0ce8d658939fd50061cab8"
+                    "url": "https://www.vtk.org/files/release/9.5/VTK-9.5.2.tar.gz",
+                    "sha256": "cee64b98d270ff7302daf1ef13458dff5d5ac1ecb45d47723835f7f7d562c989"
                 }
             ]
         },
@@ -139,10 +178,9 @@
             "name": "Draco",
             "buildsystem": "cmake-ninja",
             "builddir": true,
-            "build-options": {
-                "cflags": "-fPIC",
-                "cxxflags": "-fPIC"
-            },
+            "config-opts": [
+                "-DBUILD_SHARED_LIBS=ON"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -152,80 +190,13 @@
             ]
         },
         {
-            "name": "OCCT",
-            "buildsystem": "cmake-ninja",
-            "config-opts": [
-                "-DBUILD_MODULE_ApplicationFramework=OFF",
-                "-DBUILD_MODULE_DataExchange=ON",
-                "-DBUILD_MODULE_Draw=OFF",
-                "-DBUILD_MODULE_FoundationClasses=OFF",
-                "-DBUILD_MODULE_ModelingAlgorithms=OFF",
-                "-DBUILD_MODULE_ModelingData=OFF",
-                "-DBUILD_MODULE_Visualization=OFF",
-                "-DBUILD_DOC_Overview=OFF",
-                "-DCMAKE_CXX_FLAGS=-fpermissive"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://github.com/Open-Cascade-SAS/OCCT.git",
-                    "tag": "V7_8_1"
-                }
-            ]
-        },
-        {
-            "name": "assimp",
-            "buildsystem": "cmake-ninja",
-            "config-opts": [
-                "-DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=NO",
-                "-DASSIMP_BUILD_TESTS:BOOL=NO"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v5.4.3.tar.gz",
-                    "sha256": "66dfbaee288f2bc43172440a55d0235dfc7bf885dda6435c038e8000e79582cb"
-                }
-            ]
-        },
-        {
-            "name": "Imath",
-            "buildsystem": "cmake-ninja",
-            "config-opts": [
-                "-DBUILD_TESTING:BOOL=OFF"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://github.com/AcademySoftwareFoundation/Imath.git",
-                    "tag": "v3.1.12",
-                    "commit": "c0396a055a01bc537d32f435aee11a9b7ed6f0b5"
-                }
-            ]
-        },
-        {
-            "name": "Alembic",
-            "buildsystem": "cmake-ninja",
-            "config-opts": [
-                "-DUSE_TESTS:BOOL=OFF",
-                "-DUSE_HDF5:BOOL=ON"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/alembic/alembic/archive/refs/tags/1.8.6.tar.gz",
-                    "sha256": "c572ebdea3a5f0ce13774dd1fceb5b5815265cd1b29d142cf8c144b03c131c8c"
-                }
-            ]
-        },
-        {
             "name": "pybind11",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
             "config-opts": [
                 "-DPYBIND11_FINDPYTHON=ON",
                 "-DPYBIND11_TEST=OFF"
             ],
-            "buildsystem": "cmake-ninja",
-            "builddir": true,
             "sources": [
                 {
                     "type": "archive",
@@ -257,19 +228,56 @@
             ]
         },
         {
-            "name": "Boost",
-            "buildsystem": "simple",
+            "name": "OCCT",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_MODULE_ApplicationFramework=OFF",
+                "-DBUILD_MODULE_DataExchange=ON",
+                "-DBUILD_MODULE_Draw=OFF",
+                "-DBUILD_MODULE_FoundationClasses=OFF",
+                "-DBUILD_MODULE_ModelingAlgorithms=OFF",
+                "-DBUILD_MODULE_ModelingData=OFF",
+                "-DBUILD_MODULE_Visualization=OFF",
+                "-DBUILD_DOC_Overview=OFF",
+                "-DCMAKE_CXX_FLAGS=-fpermissive",
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/Open-Cascade-SAS/OCCT.git",
+                    "tag": "V7_8_1"
+                }
+            ]
+        },
+        {
+            "name": "assimp",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=NO",
+                "-DASSIMP_BUILD_TESTS:BOOL=NO"
+            ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.gz",
-                    "sha256": "c0685b68dd44cc46574cce86c4e17c0f611b15e195be9848dfd0769a0a207628"
+                    "url": "https://github.com/assimp/assimp/archive/refs/tags/v6.0.2.tar.gz",
+                    "sha256": "d1822d9a19c9205d6e8bc533bf897174ddb360ce504680f294170cc1d6319751"
                 }
+            ]
+        },
+        {
+            "name": "Alembic",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DUSE_TESTS:BOOL=OFF",
+                "-DUSE_HDF5:BOOL=ON"
             ],
-            "build-commands": [
-                "./bootstrap.sh --prefix=/app --with-libraries=iostreams,filesystem,system,date_time,regex,program_options,python",
-                "./b2 headers",
-                "./b2 -j$FLATPAK_BUILDER_N_JOBS install variant=release cxxstd=17 --layout=system"
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/alembic/alembic/archive/refs/tags/1.8.9.tar.gz",
+                    "sha256": "8c59c10813feee917d262c71af77d6fa3db1acaf7c5fecfd4104167077403955"
+                }
             ]
         },
         {
@@ -305,16 +313,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.tar.gz",
-                    "sha256": "f5c3e72cd584bab383a8054628b6ed98aa17b1cbbe896eb98257ac19641d10c7"
-                },
-                {
-                    "type": "patch",
-                    "path": "0001-usd-onetbb.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "0002-install-bin.patch"
+                    "url": "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v25.05.01.tar.gz",
+                    "sha256": "f424e8db26e063a1b005423ee52142e75c38185bbd4b8126ef64173e906dd50f"
                 }
             ]
         }
